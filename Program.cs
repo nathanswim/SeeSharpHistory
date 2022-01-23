@@ -6,10 +6,133 @@ class Program
     {
         // See https://aka.ms/new-console-template for more information
         Console.WriteLine("Hello, World!");
+
+        Human norm = new Human();
+        Save(norm);
+
+
+        var bookie = new ExcelFile();
+        Save(bookie);
+
+        //DI.Setup<IKitchen>(new Kitchen());
+
+
+        //var testHouse = new House(new TestDoubleKitchen(), ...);
+    }
+
+    class House
+    {
+
+        public House(IKitchen kitchen, Bedroom bedroom1, Bedroom bedroom2, Bedroom master, Bathroom bathroom)
+        {
+            Kitchen = kitchen;
+            Bedroom1 = bedroom1;
+            Bedroom2 = bedroom2;
+            MasterBedroom = master;
+            Bathroom = bathroom;
+        }
+
+        public IKitchen Kitchen { get; set; }
+        public Bedroom Bedroom1 { get; set; }
+        public Bedroom Bedroom2 { get; set; }
+        public Bedroom MasterBedroom { get; set; }
+        public Bathroom Bathroom { get; set; }
+    }
+
+    class Bedroom
+    {
+
+    }
+
+    class Bathroom
+    {
+
+    }
+
+    interface IKitchen
+    {
+
+    }
+
+    class Kitchen : IKitchen
+    {
+        // really complex with a lot of data
+    }
+
+    class TestDoubleKitchen : IKitchen
+    {
+        // highly simplified for testing purposes.
+    }
+
+
+    static void Save(ISaveable item)
+    {
+        item.Save();
     }
 }
 
-// interfaces  vs abstract class
+// dependency injection
+
+public interface IApplication
+{
+    void Run();
+}
+
+// interfaces vs abstract class
+
+interface IBiped
+{
+    void Walk();
+}
+
+
+abstract class Biped
+{
+    public void Walk()
+    {
+        // perform walking action here;
+
+    }
+
+
+}
+
+
+class Human : Biped, ISaveable
+{
+    public void Save()
+    {
+        // open file, write contents
+    }
+}
+
+
+class ExcelFile : ISaveable
+{
+    public void Save()
+    {
+        // open xlsx doc and save.
+    }
+}
+
+
+
+
+interface ISaveable
+{
+    void Save();
+}
+
+
+
+
+
+
+
+
+
+
+
 // delegates
 
 // -> method
@@ -134,9 +257,6 @@ class FuncActionDelegates
         var reversed1 = StringExtensions.ReverseString("Joel Killam");
 
         var reversed2 = "Joel Killam".ReverseString().ToLower();
-
-
-
     }
 
     string GenericFind(List<string> names, Func<string, bool> criteria)
